@@ -4,16 +4,10 @@
   <meta charset="UTF-8">
   <title>محرك البحث المتطور | مود ابك</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Tajawal', sans-serif;
       background-color: #202124;
@@ -21,15 +15,12 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
     .container {
-      width: 100%;
       max-width: 584px;
       padding: 20px;
       margin: 0 auto;
       text-align: center;
     }
-
     .logo {
       margin: 100px 0 30px;
       font-size: 90px;
@@ -39,16 +30,14 @@
       -webkit-text-fill-color: transparent;
       letter-spacing: -5px;
     }
-
     .search-box {
       position: relative;
       z-index: 2;
     }
-
     .search-input {
       width: 100%;
       height: 46px;
-      padding: 12px 60px 12px 20px;
+      padding: 12px 20px;
       background-color: #303134;
       color: #e8eaed;
       border: 2px solid transparent;
@@ -57,29 +46,14 @@
       outline: none;
       transition: all 0.3s ease;
     }
-
     .search-input:focus {
       background-color: #383b40;
       border-color: #8ab4f8;
       box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
     }
-
-    .search-icon {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #9aa0a6;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
     .overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: #202124;
       z-index: 5;
       display: none;
@@ -87,31 +61,24 @@
       padding: 20px;
       animation: fadeIn 0.3s ease;
     }
-
-    .overlay.active {
-      display: flex;
-    }
-
+    .overlay.active { display: flex; }
     .overlay .top-bar {
       display: flex;
       align-items: center;
       margin-bottom: 20px;
     }
-
     .overlay .top-bar i {
       font-size: 22px;
       color: #9aa0a6;
       margin-left: 10px;
       cursor: pointer;
     }
-
     .overlay .search-input {
       height: 50px;
       font-size: 18px;
       border-radius: 30px;
       flex: 1;
     }
-
     .search-history {
       list-style: none;
       padding: 0;
@@ -119,18 +86,21 @@
       max-height: 400px;
       overflow-y: auto;
     }
-
     .search-history li {
       padding: 15px;
       border-bottom: 1px solid #3c4043;
       cursor: pointer;
       transition: 0.2s;
+      user-select: none;
+      position: relative;
+      background-color: #303134;
+      border-radius: 12px;
+      margin: 5px 0;
+      transition: transform 0.3s ease;
     }
-
     .search-history li:hover {
       background-color: #3c4043;
     }
-
     .clear-history {
       color: #ea4335;
       font-size: 14px;
@@ -138,16 +108,63 @@
       margin-top: 15px;
       cursor: pointer;
     }
+    .clear-history.hidden { display: none; }
+.warning-dialog {
+  display: none;
+  background: linear-gradient(135deg, #ea4335, #202124);
+  color: #ffffff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 18px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 400px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-50px);
+  border: 2px solid #ffffff; /* إضافة الحواف البيضاء */
+}
 
-    .clear-history.hidden {
-      display: none;
-    }
+.warning-dialog.active {
+  display: block;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
 
+.warning-dialog .message {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.warning-dialog .button {
+  background-color: #ffffff;
+  color: #ea4335;
+  border: none;
+  padding: 5px 10px; /* تقليل حجم الزر */
+  border-radius: 6px;
+  font-size: 14px; /* تقليل حجم النص */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.warning-dialog .button:hover {
+  background-color: #f1f1f1;
+}
+
+.warning-dialog .button:active {
+  background-color: #e8e8e8;
+}
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
-
     @media (max-width: 600px) {
       .logo { font-size: 60px; }
     }
@@ -159,7 +176,6 @@
   <div class="logo">Google</div>
   <div class="search-box">
     <input type="text" class="search-input" placeholder="ابحث في Google أو اكتب عنوان URL" readonly>
-    <i class="fas fa-search search-icon"></i>
   </div>
 </div>
 
@@ -173,6 +189,13 @@
   <div class="clear-history" id="clearHistory">مسح السجل</div>
 </div>
 
+<!-- رسالة التحذير -->
+<!-- رسالة التحذير -->
+<div class="warning-dialog" id="warningDialog">
+  <div class="message">تم حظر محتوى مخالف</div>
+  <button class="button" id="closeWarning">إغلاق</button>
+</div>
+
 <script>
   const mainInput = document.querySelector('.search-input');
   const overlay = document.getElementById('fullSearch');
@@ -180,31 +203,57 @@
   const fullInput = document.getElementById('fullSearchInput');
   const historyList = document.getElementById('historyList');
   const clearBtn = document.getElementById('clearHistory');
+  const warningDialog = document.getElementById('warningDialog');
 
-  // فتح واجهة البحث
+  const restrictedKeywords = ['xx', 'xnxx', 'xxx', 'porn', 'pornhun', 'xxxx', 'xnxn', 'xn', 'سكس', 'سكسي'];
+
+  // عند الضغط على مربع البحث لفتح شاشة البحث
   mainInput.addEventListener('click', () => {
     overlay.classList.add('active');
     setTimeout(() => fullInput.focus(), 300);
     loadHistory();
+    fullInput.value = '';  
+    history.pushState(null, null, location.href);
   });
 
-  // إغلاقها
+  // إغلاق شاشة البحث
   closeBtn.addEventListener('click', () => {
     overlay.classList.remove('active');
   });
 
-  // حفظ عند الضغط على Enter
+  // عند العودة من صفحة النتائج، مسح النص في مربع البحث
+  window.addEventListener("popstate", function () {
+    if (overlay.classList.contains("active")) {
+      overlay.classList.remove("active");
+      fullInput.value = ''; 
+      history.pushState(null, null, location.href);
+    }
+  });
+
+  // البحث عند الضغط على زر Enter
   fullInput.addEventListener('keypress', e => {
     if (e.key === 'Enter') {
       const query = fullInput.value.trim();
       if (query) {
-        saveToHistory(query);
-        window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        if (checkForRestrictedContent(query)) {
+          warningDialog.classList.add('active');
+          setTimeout(() => {
+            warningDialog.classList.remove('active');
+          }, 3000);
+        } else {
+          saveToHistory(query);
+          window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        }
       }
     }
   });
 
-  // حفظ السجل في الذاكرة المحلية
+  // التحقق من المحتوى الممنوع
+  function checkForRestrictedContent(query) {
+    return restrictedKeywords.some(keyword => query.includes(keyword));
+  }
+
+  // حفظ البحث في السجل
   function saveToHistory(query) {
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
     if (!history.includes(query)) {
@@ -222,26 +271,39 @@
     history.forEach(item => {
       const li = document.createElement('li');
       li.textContent = item;
+
       li.onclick = () => {
         fullInput.value = item;
         fullInput.focus();
       };
+
       historyList.appendChild(li);
     });
 
-    // إظهار أو إخفاء زر مسح السجل
-    if (history.length > 0) {
-      clearBtn.classList.remove('hidden');
-    } else {
-      clearBtn.classList.add('hidden');
-    }
+    clearBtn.classList.toggle('hidden', history.length === 0);
   }
 
-  // مسح السجل
+  // مسح السجل بالكامل
   clearBtn.onclick = () => {
     localStorage.removeItem('searchHistory');
     loadHistory();
   };
+  
+  // عند ظهور رسالة التحذير
+function showWarning() {
+  warningDialog.classList.add('active');
+  
+  // إغلاق الرسالة بعد 3 ثواني
+  setTimeout(() => {
+    warningDialog.classList.remove('active');
+  }, 3000);
+}
+
+// إغلاق رسالة التحذير عند الضغط على زر "إغلاق"
+document.getElementById('closeWarning').addEventListener('click', () => {
+  warningDialog.classList.remove('active');
+});
+  
 </script>
 
 </body>
