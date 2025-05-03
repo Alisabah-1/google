@@ -1,266 +1,248 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محرك البحث المتطور | مود ابك</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <title>محرك البحث المتطور | مود ابك</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 
-        :root {
-            --primary-color: #8ab4f8;
-            --secondary-color: #34a853;
-            --accent-color: #ea4335;
-            --dark-background: #202124;
-            --dark-surface: #303134;
-            --dark-text: #e8eaed;
-            --dark-border: #5f6368;
-            --border-radius: 24px;
-            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            --transition: all 0.3s ease-in-out;
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--dark-background);
-            color: var(--dark-text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #202124;
+      color: #e8eaed;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 584px;
-            padding: 20px;
-            text-align: center;
-        }
+    .container {
+      width: 100%;
+      max-width: 584px;
+      padding: 20px;
+      margin: 0 auto;
+      text-align: center;
+    }
 
-        .logo-container {
-            margin-bottom: 20px;
-        }
+    .logo {
+      margin: 100px 0 30px;
+      font-size: 90px;
+      font-weight: 500;
+      background: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -5px;
+    }
 
-        .search-wrapper {
-            margin-bottom: 215px;
-            position: relative;
-        }
+    .search-box {
+      position: relative;
+      z-index: 2;
+    }
 
-        .logo {
-            height: 92px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    .search-input {
+      width: 100%;
+      height: 46px;
+      padding: 12px 60px 12px 20px;
+      background-color: #303134;
+      color: #e8eaed;
+      border: 2px solid transparent;
+      border-radius: 24px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
 
-        .logo-text {
-            font-size: 90px;
-            font-weight: 500;
-            background: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -5px;
-        }
+    .search-input:focus {
+      background-color: #383b40;
+      border-color: #8ab4f8;
+      box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+    }
 
-        .search-box {
-            position: relative;
-        }
+    .search-icon {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9aa0a6;
+      font-size: 18px;
+      cursor: pointer;
+    }
 
-        .search-input {
-            width: 100%;
-            height: 46px;
-            padding: 12px 60px 12px 20px;
-            background-color: var(--dark-surface);
-            color: var(--dark-text);
-            border: 2px solid transparent;
-            border-radius: 24px;
-            font-size: 16px;
-            outline: none;
-            transition: var(--transition);
-        }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #202124;
+      z-index: 5;
+      display: none;
+      flex-direction: column;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
 
-        .search-input:focus {
-            background-color: #383b40; /* اللون عند التركيز */
-            border-color: var(--primary-color);
-            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
-        }
+    .overlay.active {
+      display: flex;
+    }
 
-        .search-icons {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            display: flex;
-            align-items: center;
-        }
+    .overlay .top-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-        .search-icons.left {
-            right: 16px;
-        }
+    .overlay .top-bar i {
+      font-size: 22px;
+      color: #9aa0a6;
+      margin-left: 10px;
+      cursor: pointer;
+    }
 
-        .search-icon {
-            color: #9aa0a6;
-            font-size: 18px;
-            padding: 0 8px;
-            cursor: pointer;
-        }
+    .overlay .search-input {
+      height: 50px;
+      font-size: 18px;
+      border-radius: 30px;
+      flex: 1;
+    }
 
-        .search-icon:hover {
-            color: var(--dark-text);
-        }
+    .search-history {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
 
-        .url-notice {
-            color: var(--secondary-color);
-            font-size: 14px;
-            margin-top: 10px;
-            display: none;
-            padding: 8px 15px;
-            border-radius: 12px;
-            font-weight: 500;
-            background-color: rgba(52, 168, 83, 0.1);
-        }
+    .search-history li {
+      padding: 15px;
+      border-bottom: 1px solid #3c4043;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: #171717;
-            padding: 15px;
-            font-size: 14px;
-            color: #969ba1;
-        }
+    .search-history li:hover {
+      background-color: #3c4043;
+    }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px 15px;
-            }
+    .clear-history {
+      color: #ea4335;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 15px;
+      cursor: pointer;
+    }
 
-            .logo-text {
-                font-size: 70px;
-            }
+    .clear-history.hidden {
+      display: none;
+    }
 
-            .footer {
-                padding: 10px;
-            }
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-        @media (max-width: 480px) {
-            .logo-text {
-                font-size: 60px;
-            }
-        }
-    </style>
+    @media (max-width: 600px) {
+      .logo { font-size: 60px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-container">
-            <div class="logo">
-                <div class="logo-text">Google</div>
-            </div>
-        </div>
 
-        <div class="search-wrapper">
-            <div class="search-box">
-                <input type="text" class="search-input" placeholder="ابحث في Google أو اكتب عنوان URL" autofocus>
-                <div class="search-icons left">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="url-notice"><i class="fas fa-link"></i> تم التعرف على رابط - سيتم الانتقال للموقع مباشرة</div>
-        </div>
-    </div>
+<div class="container">
+  <div class="logo">Google</div>
+  <div class="search-box">
+    <input type="text" class="search-input" placeholder="ابحث في Google أو اكتب عنوان URL" readonly>
+    <i class="fas fa-search search-icon"></i>
+  </div>
+</div>
 
-    <div class="footer">
-        <div class="footer-bottom"></div>
-    </div>
+<!-- شاشة البحث الكاملة -->
+<div class="overlay" id="fullSearch">
+  <div class="top-bar">
+    <i class="fas fa-arrow-right" id="closeOverlay"></i>
+    <input type="text" class="search-input" placeholder="ابحث هنا" autofocus id="fullSearchInput">
+  </div>
+  <ul class="search-history" id="historyList"></ul>
+  <div class="clear-history" id="clearHistory">مسح السجل</div>
+</div>
 
-    <script>
-        const searchInput = document.querySelector('.search-input');
-        const urlNotice = document.querySelector('.url-notice');
+<script>
+  const mainInput = document.querySelector('.search-input');
+  const overlay = document.getElementById('fullSearch');
+  const closeBtn = document.getElementById('closeOverlay');
+  const fullInput = document.getElementById('fullSearchInput');
+  const historyList = document.getElementById('historyList');
+  const clearBtn = document.getElementById('clearHistory');
 
-        // تركيز مباشر على حقل البحث
-        setTimeout(() => {
-            searchInput.focus();
-        }, 800);
+  // فتح واجهة البحث
+  mainInput.addEventListener('click', () => {
+    overlay.classList.add('active');
+    setTimeout(() => fullInput.focus(), 300);
+    loadHistory();
+  });
 
-        searchInput.addEventListener('input', function() {
-            checkForURL(this.value);
-        });
+  // إغلاقها
+  closeBtn.addEventListener('click', () => {
+    overlay.classList.remove('active');
+  });
 
-        // التحقق من وجود رابط URL أثناء الكتابة
-        function checkForURL(text) {
-            if (isURL(text)) {
-                searchInput.classList.add('url-mode');
-                urlNotice.style.display = 'block';
-            } else {
-                searchInput.classList.remove('url-mode');
-                urlNotice.style.display = 'none';
-            }
-        }
+  // حفظ عند الضغط على Enter
+  fullInput.addEventListener('keypress', e => {
+    if (e.key === 'Enter') {
+      const query = fullInput.value.trim();
+      if (query) {
+        saveToHistory(query);
+        window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      }
+    }
+  });
 
-        // التحقق إذا كان النص عبارة عن رابط URL
-        function isURL(text) {
-            text = text.trim().toLowerCase();
+  // حفظ السجل في الذاكرة المحلية
+  function saveToHistory(query) {
+    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    if (!history.includes(query)) {
+      history.unshift(query);
+      if (history.length > 15) history.pop();
+      localStorage.setItem('searchHistory', JSON.stringify(history));
+      loadHistory();
+    }
+  }
 
-            const hasProtocol = /^(https?:\/\/)/i.test(text);
-            const domainPattern = /^(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+(\.[a-z]{2,})(\/[^\s]*)?$/i;
-            const commonDomains = /(\.com|\.net|\.org|\.edu|\.gov|\.io|\.co|\.me|\.sa|\.ae|\.eg)$/i;
-            const ipPattern = /^(https?:\/\/)?\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/i;
+  // تحميل السجل
+  function loadHistory() {
+    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    historyList.innerHTML = '';
+    history.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      li.onclick = () => {
+        fullInput.value = item;
+        fullInput.focus();
+      };
+      historyList.appendChild(li);
+    });
 
-            return (hasProtocol && text.includes('.')) || 
-                   domainPattern.test(text) || 
-                   (text.includes('.') && commonDomains.test(text)) ||
-                   ipPattern.test(text);
-        }
+    // إظهار أو إخفاء زر مسح السجل
+    if (history.length > 0) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+  }
 
-        // عند الضغط على Enter في حقل البحث
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
+  // مسح السجل
+  clearBtn.onclick = () => {
+    localStorage.removeItem('searchHistory');
+    loadHistory();
+  };
+</script>
 
-        // الانتقال إلى رابط URL
-        function navigateToURL(url) {
-            if (!/^https?:\/\//i.test(url)) {
-                url = 'https://' + url;
-            }
-
-            window.location.href = url;
-        }
-
-        // وظيفة البحث
-        function performSearch() {
-            const query = searchInput.value.trim();
-
-            if (query) {
-                if (isURL(query)) {
-                    navigateToURL(query);
-                } else {
-                    window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-                }
-            } else {
-                // إذا كان حقل البحث فارغًا
-                searchInput.classList.add('shake');
-                setTimeout(() => {
-                    searchInput.classList.remove('shake');
-                    searchInput.focus();
-                }, 500);
-            }
-        }
-    </script>
 </body>
 </html>
