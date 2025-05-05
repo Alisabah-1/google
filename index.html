@@ -29,6 +29,11 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -5px;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+    .logo.animate {
+      transform: translateY(-20px);
+      opacity: 0.7;
     }
     .search-box {
       position: relative;
@@ -97,9 +102,27 @@
       border-radius: 12px;
       margin: 5px 0;
       transition: transform 0.3s ease;
+      touch-action: pan-y;
     }
     .search-history li:hover {
       background-color: #3c4043;
+    }
+    .search-history li.swiping {
+      transform: translateX(-100px);
+      background-color: #ea4335;
+    }
+    .search-history li .delete-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      color: #ffffff;
+      font-size: 18px;
+    }
+    .search-history li.swiping .delete-icon {
+      opacity: 1;
     }
     .clear-history {
       color: #ea4335;
@@ -109,73 +132,281 @@
       cursor: pointer;
     }
     .clear-history.hidden { display: none; }
-.warning-dialog {
-  display: none;
-  background: linear-gradient(135deg, #ea4335, #202124);
-  color: #ffffff;
-  padding: 20px 30px;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 18px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  z-index: 10;
-  position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  max-width: 400px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
-  transform: translateX(-50%) translateY(-50px);
-  border: 2px solid #ffffff; /* إضافة الحواف البيضاء */
-}
+    
+    /* تحسين رسالة التحذير */
+    .warning-dialog {
+      display: none;
+      background: linear-gradient(135deg, #ea4335, #202124);
+      color: #ffffff;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 18px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+      z-index: 10;
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 450px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      opacity: 0;
+      transform: translateX(-50%) translateY(-30px) scale(0.9);
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      animation: shake 0.5s ease 0.2s;
+    }
 
-.warning-dialog.active {
-  display: block;
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+    .warning-dialog.active {
+      display: block;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
 
-.warning-dialog .message {
-  font-size: 20px;
-  margin-bottom: 15px;
-  font-weight: bold;
-}
+    .warning-dialog .icon {
+      font-size: 40px;
+      color: #ffffff;
+      margin-bottom: 15px;
+    }
 
-.warning-dialog .button {
-  background-color: #ffffff;
-  color: #ea4335;
-  border: none;
-  padding: 5px 10px; /* تقليل حجم الزر */
-  border-radius: 6px;
-  font-size: 14px; /* تقليل حجم النص */
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+    .warning-dialog .message {
+      font-size: 22px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .warning-dialog .sub-message {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
 
-.warning-dialog .button:hover {
-  background-color: #f1f1f1;
-}
+    .warning-dialog .button {
+      background-color: #ffffff;
+      color: #ea4335;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
 
-.warning-dialog .button:active {
-  background-color: #e8e8e8;
-}
+    .warning-dialog .button:hover {
+      background-color: #f1f1f1;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .warning-dialog .button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(-50%); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-54%); }
+      20%, 40%, 60%, 80% { transform: translateX(-46%); }
+    }
+    
+    /* تنسيق زر المواقع المفضلة */
+    .favorites-btn {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #4285f4, #34a853);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      z-index: 3;
+      transition: transform 0.3s ease;
+    }
+    .favorites-btn:hover {
+      transform: scale(1.1);
+    }
+    .favorites-btn i {
+      font-size: 24px;
+      color: white;
+    }
+    
+    /* تنسيق نافذة المواقع المفضلة */
+    .favorites-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 300px;
+      background-color: #303134;
+      z-index: 10;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      padding: 20px;
+      box-shadow: -3px 0 10px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      touch-action: pan-x;
+    }
+    .favorites-panel.active {
+      transform: translateX(0);
+    }
+    .favorites-panel.swiping {
+      transition: transform 0.1s ease;
+    }
+    .favorites-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .favorites-header h3 {
+      font-size: 20px;
+      color: #e8eaed;
+    }
+    .favorites-header i {
+      font-size: 24px;
+      color: #9aa0a6;
+      cursor: pointer;
+    }
+    .favorites-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .favorites-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 15px;
+      background-color: #383b40;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .favorites-list li:hover {
+      background-color: #4d5056;
+    }
+    .favorites-list li .site-info {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      overflow: hidden;
+    }
+    .favorites-list li .site-icon {
+      width: 24px;
+      height: 24px;
+      margin-left: 10px;
+      border-radius: 4px;
+      background-color: #9aa0a6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #202124;
+      text-transform: uppercase;
+    }
+    .favorites-list li .site-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .favorites-list li .delete-site {
+      color: #ea4335;
+      font-size: 16px;
+      padding: 5px;
+    }
+    .add-favorite-form {
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #383b40;
+      border-radius: 8px;
+    }
+    .add-favorite-form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #303134;
+      border: 1px solid #5f6368;
+      border-radius: 4px;
+      color: #e8eaed;
+    }
+    .add-favorite-form button {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #4285f4, #34a853);
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    .add-favorite-form button:hover {
+      opacity: 0.9;
+    }
+    
+    /* مؤشر حالة السحب لإغلاق اللوحة */
+    .swipe-indicator {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      font-size: 32px;
+      color: #ea4335;
+    }
+    .favorites-panel.swiping-right .swipe-indicator {
+      opacity: 1;
+    }
+    
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
     @media (max-width: 600px) {
       .logo { font-size: 60px; }
+      .favorites-panel { width: 85%; }
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="logo">Google</div>
+  <div class="logo" id="logo">Google</div>
   <div class="search-box">
     <input type="text" class="search-input" placeholder="ابحث في Google أو اكتب عنوان URL" readonly>
+  </div>
+</div>
+
+<!-- زر المواقع المفضلة -->
+<div class="favorites-btn" id="favoritesBtn">
+  <i class="fas fa-star"></i>
+</div>
+
+<!-- لوحة المواقع المفضلة -->
+<div class="favorites-panel" id="favoritesPanel">
+  <div class="favorites-header">
+    <h3>المواقع المفضلة</h3>
+    <i class="fas fa-times" id="closeFavorites"></i>
+  </div>
+  <div class="swipe-indicator">
+    <i class="fas fa-chevron-left"></i>
+  </div>
+  <ul class="favorites-list" id="favoritesList"></ul>
+  <div class="add-favorite-form">
+    <input type="text" id="siteName" placeholder="اسم الموقع">
+    <input type="url" id="siteURL" placeholder="رابط الموقع (مثال: https://example.com)">
+    <button id="addSiteBtn">إضافة</button>
   </div>
 </div>
 
@@ -189,11 +420,14 @@
   <div class="clear-history" id="clearHistory">مسح السجل</div>
 </div>
 
-<!-- رسالة التحذير -->
-<!-- رسالة التحذير -->
+<!-- رسالة التحذير المطورة -->
 <div class="warning-dialog" id="warningDialog">
+  <div class="icon">
+    <i class="fas fa-exclamation-triangle"></i>
+  </div>
   <div class="message">تم حظر محتوى مخالف</div>
-  <button class="button" id="closeWarning">إغلاق</button>
+  <div class="sub-message">نحن نعمل على توفير بيئة آمنة للجميع، ولذلك تم منع الوصول إلى المحتوى المطلوب.</div>
+  <button class="button" id="closeWarning">حسناً، فهمت</button>
 </div>
 
 <script>
@@ -204,6 +438,7 @@
   const historyList = document.getElementById('historyList');
   const clearBtn = document.getElementById('clearHistory');
   const warningDialog = document.getElementById('warningDialog');
+  const logo = document.getElementById('logo');
 
   const restrictedKeywords = ['xx', 'xnxx', 'xxx', 'porn', 'pornhun', 'xxxx', 'xnxn', 'xn', 'سكس', 'سكسي'];
 
@@ -236,17 +471,44 @@
       const query = fullInput.value.trim();
       if (query) {
         if (checkForRestrictedContent(query)) {
-          warningDialog.classList.add('active');
-          setTimeout(() => {
-            warningDialog.classList.remove('active');
-          }, 3000);
+          showRestrictedContentWarning();
         } else {
-          saveToHistory(query);
-          window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+          if (isValidURL(query)) {
+            // إذا كانت المدخلات هي رابط صالح، قم بإعادة التوجيه إليه
+            window.location.href = query.startsWith('http') ? query : `http://${query}`;
+          } else {
+            // إذا كانت مجرد بحث، قم بحفظه في السجل
+            saveToHistory(query);
+            window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+          }
         }
       }
     }
   });
+
+  // دالة لعرض تحذير المحتوى المقيد بشكل محسن
+  function showRestrictedContentWarning() {
+    warningDialog.classList.add('active');
+    
+    // إضافة تأثير اهتزاز بعد فترة قصيرة
+    setTimeout(() => {
+      warningDialog.style.animation = 'shake 0.5s ease';
+    }, 200);
+    
+    // إزالة التحذير بعد 5 ثوانٍ
+    setTimeout(() => {
+      warningDialog.classList.remove('active');
+      setTimeout(() => {
+        warningDialog.style.animation = '';  // إعادة تعيين الرسوم المتحركة
+      }, 500);
+    }, 5000);
+  }
+
+  // دالة للتحقق مما إذا كانت المدخلات هي رابط صالح
+  function isValidURL(string) {
+    const res = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
+    return res.test(string);
+  }
 
   // التحقق من المحتوى الممنوع
   function checkForRestrictedContent(query) {
@@ -268,19 +530,98 @@
   function loadHistory() {
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
     historyList.innerHTML = '';
+    
     history.forEach(item => {
       const li = document.createElement('li');
       li.textContent = item;
-
+      
       li.onclick = () => {
         fullInput.value = item;
         fullInput.focus();
       };
-
+      
       historyList.appendChild(li);
     });
-
+    
     clearBtn.classList.toggle('hidden', history.length === 0);
+    
+    // إعداد ميزة السحب للحذف بعد تحديث القائمة
+    setupSwipeToDelete();
+  }
+
+  // إضافة دعم لسحب عناصر السجل لحذفها
+  function setupSwipeToDelete() {
+    const historyItems = document.querySelectorAll('.search-history li');
+    
+    historyItems.forEach(item => {
+      let startX, moveX, currentItem;
+      
+      // إضافة أيقونة الحذف
+      const deleteIcon = document.createElement('i');
+      deleteIcon.classList.add('fas', 'fa-trash', 'delete-icon');
+      item.appendChild(deleteIcon);
+      
+      item.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+        currentItem = this;
+      }, {passive: true});
+      
+      item.addEventListener('touchmove', function(e) {
+        if (!startX) return;
+        
+        moveX = e.touches[0].clientX;
+        const diff = moveX - startX;
+        
+        // سحب من اليسار لليمين فقط
+        if (diff > 0) {
+          e.preventDefault();
+          const swipeAmount = Math.min(diff, 100); // الحد الأقصى للسحب
+          this.style.transform = `translateX(${swipeAmount}px)`;
+          
+          // إضافة تأثير السحب عند تجاوز عتبة معينة
+          if (swipeAmount > 50) {
+            this.classList.add('swiping');
+          } else {
+            this.classList.remove('swiping');
+          }
+        }
+      });
+      
+      item.addEventListener('touchend', function(e) {
+        const diff = moveX - startX;
+        
+        // إذا تم سحب العنصر بمقدار كافٍ، قم بحذفه
+        if (diff > 50) {
+          const searchText = this.textContent.trim();
+          deleteFromHistory(searchText);
+        }
+        
+        // إعادة العنصر إلى موضعه الأصلي
+        this.style.transform = '';
+        this.classList.remove('swiping');
+        startX = null;
+        moveX = null;
+      });
+      
+      // للحذف مباشرة عند النقر على أيقونة الحذف
+      deleteIcon.addEventListener('click', function(e) {
+        e.stopPropagation(); // منع انتشار الحدث للعنصر الأب
+        const searchText = item.textContent.trim();
+        deleteFromHistory(searchText);
+      });
+    });
+  }
+  
+  // دالة لحذف عنصر من سجل البحث
+  function deleteFromHistory(text) {
+    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    const index = history.indexOf(text);
+    
+    if (index !== -1) {
+      history.splice(index, 1);
+      localStorage.setItem('searchHistory', JSON.stringify(history));
+      loadHistory();
+    }
   }
 
   // مسح السجل بالكامل
@@ -288,23 +629,181 @@
     localStorage.removeItem('searchHistory');
     loadHistory();
   };
-  
-  // عند ظهور رسالة التحذير
-function showWarning() {
-  warningDialog.classList.add('active');
-  
-  // إغلاق الرسالة بعد 3 ثواني
-  setTimeout(() => {
-    warningDialog.classList.remove('active');
-  }, 3000);
-}
 
-// إغلاق رسالة التحذير عند الضغط على زر "إغلاق"
-document.getElementById('closeWarning').addEventListener('click', () => {
-  warningDialog.classList.remove('active');
-});
+  // إغلاق رسالة التحذير عند الضغط على زر "إغلاق"
+  document.getElementById('closeWarning').addEventListener('click', () => {
+    warningDialog.classList.remove('active');
+  });
+
+  // عند الضغط على نص Google
+  logo.addEventListener('click', () => {
+    logo.classList.add('animate');
+    setTimeout(() => {
+      logo.classList.remove('animate');
+    }, 400); // مدة الحركة تطابق مدة التحويل في CSS
+  });
   
+  // ميزة المواقع المفضلة
+  const favoritesBtn = document.getElementById('favoritesBtn');
+  const favoritesPanel = document.getElementById('favoritesPanel');
+  const closeFavorites = document.getElementById('closeFavorites');
+  const favoritesList = document.getElementById('favoritesList');
+  const addSiteBtn = document.getElementById('addSiteBtn');
+  const siteNameInput = document.getElementById('siteName');
+  const siteURLInput = document.getElementById('siteURL');
+  
+  // فتح وإغلاق لوحة المفضلة
+  favoritesBtn.addEventListener('click', () => {
+    favoritesPanel.classList.add('active');
+    loadFavorites();
+  });
+  
+  closeFavorites.addEventListener('click', () => {
+    favoritesPanel.classList.remove('active');
+  });
+  
+  // إضافة موقع للمفضلة
+  addSiteBtn.addEventListener('click', () => {
+    const name = siteNameInput.value.trim();
+    let url = siteURLInput.value.trim();
+    
+    if (name && url) {
+      // تأكد من أن الرابط يحتوي على بروتوكول
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+      }
+      
+      addFavorite(name, url);
+      siteNameInput.value = '';
+      siteURLInput.value = '';
+    }
+  });
+  
+  // إضافة موقع للمفضلة
+  function addFavorite(name, url) {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    
+    // تحقق مما إذا كان الموقع موجودًا بالفعل
+    const exists = favorites.some(site => site.url === url);
+    
+    if (!exists) {
+      favorites.push({ name, url });
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      loadFavorites();
+    }
+  }
+  
+  // تحميل المواقع المفضلة
+  function loadFavorites() {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    favoritesList.innerHTML = '';
+    
+    favorites.forEach(site => {
+      const li = document.createElement('li');
+      
+      const siteInfo = document.createElement('div');
+      siteInfo.className = 'site-info';
+      
+      const icon = document.createElement('div');
+      icon.className = 'site-icon';
+      icon.textContent = site.name.charAt(0);
+      
+      const name = document.createElement('div');
+      name.className = 'site-name';
+      name.textContent = site.name;
+      
+      const deleteBtn = document.createElement('i');
+      deleteBtn.className = 'fas fa-times delete-site';
+      
+      siteInfo.appendChild(icon);
+      siteInfo.appendChild(name);
+      li.appendChild(siteInfo);
+      li.appendChild(deleteBtn);
+      
+      // فتح الموقع عند النقر
+      siteInfo.addEventListener('click', () => {
+        window.location.href = site.url;
+      });
+      
+      // حذف الموقع من المفضلة
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteFavorite(site.url);
+      });
+      
+      favoritesList.appendChild(li);
+    });
+  }
+  
+  // حذف موقع من المفضلة
+  function deleteFavorite(url) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    favorites = favorites.filter(site => site.url !== url);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    loadFavorites();
+  }
+  
+  // إضافة دعم لإغلاق لوحة المفضلة بالسحب من اليسار إلى اليمين
+  function setupFavoritesPanelSwipe() {
+    let startX, moveX;
+    
+    favoritesPanel.addEventListener('touchstart', function(e) {
+      if (favoritesPanel.classList.contains('active')) {
+        startX = e.touches[0].clientX;
+      }
+    }, {passive: true});
+    
+    favoritesPanel.addEventListener('touchmove', function(e) {
+      if (!startX || !favoritesPanel.classList.contains('active')) return;
+      
+      moveX = e.touches[0].clientX;
+      const diff = moveX - startX; // القيمة ستكون موجبة عند السحب من اليسار إلى اليمين
+      
+      // سحب من اليسار إلى اليمين فقط (للإغلاق)
+      if (diff > 0) {
+        e.preventDefault();
+        const translateX = Math.min(diff, 150); // الحد الأقصى للسحب
+        favoritesPanel.classList.add('swiping');
+        favoritesPanel.style.transform = `translateX(${translateX}px)`;
+        
+        // إظهار مؤشر السحب عند تجاوز عتبة معينة
+        if (translateX > 50) {
+          favoritesPanel.classList.add('swiping-right');
+        } else {
+          favoritesPanel.classList.remove('swiping-right');
+        }
+      }
+    });
+    
+    favoritesPanel.addEventListener('touchend', function(e) {
+      if (!startX || !favoritesPanel.classList.contains('active')) return;
+      
+      const diff = moveX - startX;
+      
+      // إذا تم سحب اللوحة بمقدار كافٍ، أغلقها
+      if (diff > 80) { // عتبة الإغلاق
+        favoritesPanel.style.transform = 'translateX(100%)'; // تحريك اللوحة للخارج
+        setTimeout(() => {
+          favoritesPanel.classList.remove('active');
+          favoritesPanel.style.transform = '';
+        }, 300);
+      } else {
+        // إعادة اللوحة إلى موضعها الأصلي إذا لم يكن قد تم سحبها بشكل كافٍ
+        favoritesPanel.style.transform = '';
+        favoritesPanel.classList.remove('swiping-right');
+      }
+      
+      // إعادة الضبط
+      startX = null;
+      moveX = null;
+      favoritesPanel.classList.remove('swiping');
+    });
+  }
+  
+  // تنفيذ ميزة السحب للمفضلة عند تحميل الصفحة
+  setupFavoritesPanelSwipe();
 </script>
 
 </body>
 </html>
+
