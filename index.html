@@ -13,7 +13,6 @@
       background-color: #202124;
       color: #e8eaed;
       min-height: 100vh;
-      overflow-x: hidden;
     }
     .container {
       max-width: 584px;
@@ -31,13 +30,7 @@
       letter-spacing: -3px;
       transition: transform 0.3s ease;
     }
-    .logo.animate {
-      transform: translateY(-15px);
-    }
-    .search-box {
-      position: relative;
-      z-index: 2;
-    }
+    .logo.animate { transform: translateY(-15px); }
     .search-input {
       width: 100%;
       height: 46px;
@@ -48,12 +41,16 @@
       border-radius: 24px;
       font-size: 16px;
       outline: none;
-      transition: all 0.2s ease;
+      transition: all 0.3s;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     .search-input:focus {
       background-color: #383b40;
       border-color: #8ab4f8;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     }
+    
+    /* تنسيق شاشة البحث الكاملة */
     .overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -71,16 +68,12 @@
     }
     .overlay .top-bar i {
       font-size: 22px;
-      color: #9aa0a6;
+      color: #e8eaed;
       margin-left: 10px;
       cursor: pointer;
     }
-    .overlay .search-input {
-      height: 50px;
-      font-size: 18px;
-      border-radius: 30px;
-      flex: 1;
-    }
+    
+    /* تنسيق سجل البحث */
     .search-history {
       list-style: none;
       padding: 0;
@@ -90,23 +83,31 @@
     }
     .search-history li {
       padding: 15px;
-      border-bottom: 1px solid #3c4043;
       cursor: pointer;
       position: relative;
       background-color: #303134;
       border-radius: 12px;
-      margin: 5px 0;
+      margin: 8px 0;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
     }
     .search-history li:hover {
       background-color: #3c4043;
+      transform: translateY(-2px);
+    }
+    .search-history li .history-icon {
+      margin-left: 12px;
+      color: #e8eaed;
+      opacity: 0.7;
+    }
+    .search-history li .history-text {
+      flex: 1;
+      text-align: right;
     }
     .search-history li .delete-icon {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #ffffff;
-      font-size: 18px;
+      color: #ea4335;
+      padding: 5px;
     }
     .clear-history {
       color: #ea4335;
@@ -114,10 +115,15 @@
       text-align: center;
       margin-top: 15px;
       cursor: pointer;
+      padding: 12px;
+      border-radius: 4px;
+    }
+    .clear-history:hover {
+      background-color: rgba(234, 67, 53, 0.1);
     }
     .clear-history.hidden { display: none; }
     
-    /* تنسيق زر المواقع المفضلة */
+    /* زر المواقع المفضلة */
     .favorites-btn {
       position: fixed;
       bottom: 30px;
@@ -129,41 +135,40 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
       cursor: pointer;
       z-index: 3;
     }
-    .favorites-btn:active {
-      transform: scale(0.95);
-    }
+    .favorites-btn:active { transform: scale(0.95); }
     .favorites-btn i {
       font-size: 22px;
       color: white;
     }
     
-    /* تنسيق نافذة المواقع المفضلة */
+    /* تنسيق نافذة المواقع المفضلة - نسخة بسيطة للهاتف */
     .favorites-panel {
       position: fixed;
-      right: 0;
       top: 0;
+      left: 0;
+      right: 0;
       bottom: 0;
-      width: 300px;
-      background-color: #303134;
+      background-color: #202124;
       z-index: 10;
-      transform: translateX(100%);
-      transition: transform 0.3s ease;
-      padding: 20px;
-      display: flex;
+      display: none;
       flex-direction: column;
+      padding: 20px;
+      overflow-y: auto;
     }
     .favorites-panel.active {
-      transform: translateX(0);
+      display: flex;
     }
     .favorites-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #3c4043;
     }
     .favorites-header h3 {
       font-size: 20px;
@@ -171,9 +176,11 @@
     }
     .favorites-header i {
       font-size: 22px;
-      color: #9aa0a6;
+      padding: 5px;
       cursor: pointer;
     }
+    
+    /* تنسيق القائمة - نسخة محسنة للهاتف */
     .favorites-list {
       list-style: none;
       padding: 0;
@@ -182,74 +189,136 @@
       overflow-y: auto;
     }
     .favorites-list li {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 15px;
-      background-color: #383b40;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      cursor: pointer;
+      background-color: #303134;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: transform 0.2s;
     }
-    .favorites-list li:hover {
-      background-color: #4d5056;
+    .favorites-list li:active {
+      transform: scale(0.98);
     }
     .favorites-list li .site-info {
       display: flex;
       align-items: center;
-      flex: 1;
-      overflow: hidden;
+      padding: 15px;
+      cursor: pointer;
     }
     .favorites-list li .site-icon {
-      width: 24px;
-      height: 24px;
-      margin-left: 10px;
-      border-radius: 4px;
-      background-color: #9aa0a6;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      margin-left: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      color: #202124;
-      text-transform: uppercase;
+      font-size: 18px;
+      color: white;
+      background-size: cover !important;
+      background-position: center !important;
     }
     .favorites-list li .site-name {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .favorites-list li .delete-site {
-      color: #ea4335;
+      font-weight: 500;
       font-size: 16px;
-      padding: 5px;
     }
-    .add-favorite-form {
-      margin-top: 15px;
-      padding: 15px;
-      background-color: #383b40;
-      border-radius: 8px;
-    }
-    .add-favorite-form input {
-      width: 100%;
+    
+    /* أزرار العمليات للمفضلة */
+    .favorites-list li .actions {
+      display: flex;
+      justify-content: space-around;
       padding: 10px;
-      margin-bottom: 10px;
-      background-color: #303134;
-      border: 1px solid #5f6368;
-      border-radius: 4px;
+      background-color: #272727;
+      border-top: 1px solid #3c4043;
+    }
+    .favorites-list li .actions button {
+      background: none;
+      border: none;
       color: #e8eaed;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      transition: background 0.2s;
     }
-    .add-favorite-form button {
+    .favorites-list li .actions button:hover {
+      background-color: #383b40;
+    }
+    .favorites-list li .actions button i {
+      margin-left: 5px;
+    }
+    .favorites-list li .actions .edit-btn {
+      color: #8ab4f8;
+    }
+    .favorites-list li .actions .delete-btn {
+      color: #ea4335;
+    }
+    
+    /* نموذج إضافة موقع جديد */
+    .add-favorite {
+      background-color: #303134;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+    .add-favorite-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #3c4043;
+    }
+    .add-favorite-header i {
+      margin-left: 10px;
+      color: #8ab4f8;
+      font-size: 18px;
+    }
+    .add-favorite-header h4 {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .add-favorite input {
       width: 100%;
-      padding: 10px;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      background-color: #202124;
+      border: 1px solid #3c4043;
+      border-radius: 8px;
+      color: #e8eaed;
+      font-size: 15px;
+    }
+    .add-favorite input:focus {
+      border-color: #8ab4f8;
+      outline: none;
+    }
+    .add-favorite button {
+      width: 100%;
+      padding: 12px;
       background: linear-gradient(135deg, #4285f4, #34a853);
       border: none;
-      border-radius: 4px;
+      border-radius: 8px;
       color: white;
+      font-weight: 500;
+      font-size: 15px;
       cursor: pointer;
+      font-family: 'Tajawal', sans-serif;
     }
+    
+    /* تنسيق متجاوب للهواتف */
     @media (max-width: 600px) {
-      .logo { font-size: 50px; margin: 70px 0 25px; }
-      .favorites-panel { width: 85%; }
+      .logo { 
+        font-size: 50px; 
+        margin: 70px 0 25px; 
+      }
+      .favorites-list li .site-info {
+        padding: 12px;
+      }
+      .favorites-list li .actions button {
+        padding: 8px 10px;
+        font-size: 13px;
+      }
     }
   </style>
 </head>
@@ -273,11 +342,19 @@
     <h3>المواقع المفضلة</h3>
     <i class="fas fa-times" id="closeFavorites"></i>
   </div>
+  
+  <!-- قائمة المواقع المفضلة -->
   <ul class="favorites-list" id="favoritesList"></ul>
-  <div class="add-favorite-form">
-    <input type="text" id="siteName" placeholder="اسم الموقع">
-    <input type="url" id="siteURL" placeholder="رابط الموقع (مثال: https://example.com)">
-    <button id="addSiteBtn">إضافة</button>
+  
+  <!-- نموذج إضافة موقع للمفضلة -->
+  <div class="add-favorite">
+    <div class="add-favorite-header">
+      <i class="fas fa-plus-circle"></i>
+      <h4>إضافة موقع جديد</h4>
+    </div>
+    <input type="text" id="siteName" placeholder="اسم الموقع (مثال: جوجل)">
+    <input type="url" id="siteURL" placeholder="رابط الموقع (مثال: https://google.com)">
+    <button id="addSiteBtn">إضافة للمفضلة</button>
   </div>
 </div>
 
@@ -292,6 +369,7 @@
 </div>
 
 <script>
+  // تهيئة المتغيرات الأساسية
   const mainInput = document.querySelector('.search-input');
   const overlay = document.getElementById('fullSearch');
   const closeBtn = document.getElementById('closeOverlay');
@@ -299,126 +377,7 @@
   const historyList = document.getElementById('historyList');
   const clearBtn = document.getElementById('clearHistory');
   const logo = document.getElementById('logo');
-
-  // عند الضغط على مربع البحث لفتح شاشة البحث
-  mainInput.addEventListener('click', () => {
-    overlay.classList.add('active');
-    setTimeout(() => fullInput.focus(), 100);
-    loadHistory();
-    fullInput.value = '';  
-    history.pushState(null, null, location.href);
-  });
-
-  // إغلاق شاشة البحث
-  closeBtn.addEventListener('click', () => {
-    overlay.classList.remove('active');
-  });
-
-  // عند العودة من صفحة النتائج، إغلاق شاشة البحث
-  window.addEventListener("popstate", function () {
-    if (overlay.classList.contains("active")) {
-      overlay.classList.remove("active");
-      history.pushState(null, null, location.href);
-    }
-  });
-
-  // البحث عند الضغط على زر Enter
-  fullInput.addEventListener('keypress', e => {
-    if (e.key === 'Enter') {
-      const query = fullInput.value.trim();
-      if (query) {
-        if (isValidURL(query)) {
-          // إذا كانت المدخلات هي رابط صالح، قم بإعادة التوجيه إليه
-          window.location.href = query.startsWith('http') ? query : `http://${query}`;
-        } else {
-          // إذا كانت مجرد بحث، قم بحفظه في السجل
-          saveToHistory(query);
-          window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-        }
-      }
-    }
-  });
-
-  // دالة للتحقق مما إذا كانت المدخلات هي رابط صالح
-  function isValidURL(string) {
-    try {
-      const pattern = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
-      return pattern.test(string);
-    } catch (e) {
-      return false;
-    }
-  }
-
-  // حفظ البحث في السجل
-  function saveToHistory(query) {
-    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    // فحص إذا كان البحث موجود بالفعل وإزالته إذا كان كذلك
-    const index = history.indexOf(query);
-    if (index > -1) {
-      history.splice(index, 1);
-    }
-    // إضافة البحث إلى بداية المصفوفة
-    history.unshift(query);
-    // الاحتفاظ بأحدث 15 عنصر فقط
-    if (history.length > 15) history.length = 15;
-    localStorage.setItem('searchHistory', JSON.stringify(history));
-  }
-
-  // تحميل السجل
-  function loadHistory() {
-    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    historyList.innerHTML = '';
-    
-    history.forEach(item => {
-      const li = document.createElement('li');
-      li.textContent = item;
-      
-      // إضافة أيقونة الحذف
-      const deleteIcon = document.createElement('i');
-      deleteIcon.classList.add('fas', 'fa-trash', 'delete-icon');
-      li.appendChild(deleteIcon);
-      
-      // تنفيذ البحث عند النقر على العنصر
-      li.addEventListener('click', () => {
-        fullInput.value = item;
-        fullInput.focus();
-      });
-      
-      // حذف العنصر عند النقر على أيقونة الحذف
-      deleteIcon.addEventListener('click', (e) => {
-        e.stopPropagation();
-        deleteFromHistory(item);
-      });
-      
-      historyList.appendChild(li);
-    });
-    
-    clearBtn.classList.toggle('hidden', history.length === 0);
-  }
   
-  // دالة لحذف عنصر من سجل البحث
-  function deleteFromHistory(text) {
-    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    history = history.filter(item => item !== text);
-    localStorage.setItem('searchHistory', JSON.stringify(history));
-    loadHistory();
-  }
-
-  // مسح السجل بالكامل
-  clearBtn.onclick = () => {
-    localStorage.removeItem('searchHistory');
-    loadHistory();
-  };
-
-  // عند الضغط على شعار Google
-  logo.addEventListener('click', () => {
-    logo.classList.add('animate');
-    setTimeout(() => {
-      logo.classList.remove('animate');
-    }, 300);
-  });
-  
-  // ميزة المواقع المفضلة
   const favoritesBtn = document.getElementById('favoritesBtn');
   const favoritesPanel = document.getElementById('favoritesPanel');
   const closeFavorites = document.getElementById('closeFavorites');
@@ -427,18 +386,159 @@
   const siteNameInput = document.getElementById('siteName');
   const siteURLInput = document.getElementById('siteURL');
   
-  // فتح لوحة المفضلة
+  // وظائف التخزين
+  function getFromStorage(key, defaultValue = []) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : defaultValue;
+  }
+  
+  function saveToStorage(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+  
+  // التحقق من صحة الرابط
+  function isValidURL(string) {
+    const pattern = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+    return pattern.test(string);
+  }
+  
+  // إنشاء أيقونة للموقع
+  function createFaviconUrl(url) {
+    try {
+      const domain = new URL(url).hostname;
+      return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+    } catch (e) {
+      return null;
+    }
+  }
+  
+  // توليد لون من نص
+  function getColorFromString(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    const colors = [
+      '#4285f4', '#ea4335', '#fbbc05', '#34a853', 
+      '#8ab4f8', '#ff7043', '#9c27b0', '#00acc1'
+    ];
+    
+    return colors[Math.abs(hash) % colors.length];
+  }
+  
+  // وظائف البحث
+  mainInput.addEventListener('click', () => {
+    overlay.classList.add('active');
+    setTimeout(() => fullInput.focus(), 100);
+    loadHistory();
+    fullInput.value = '';  
+    history.pushState(null, null, location.href);
+  });
+  
+  closeBtn.addEventListener('click', () => {
+    overlay.classList.remove('active');
+  });
+  
+  window.addEventListener("popstate", () => {
+    if (overlay.classList.contains("active")) {
+      overlay.classList.remove("active");
+      history.pushState(null, null, location.href);
+    }
+    
+    if (favoritesPanel.classList.contains("active")) {
+      favoritesPanel.classList.remove("active");
+    }
+  });
+  
+  fullInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const query = fullInput.value.trim();
+      if (query) {
+        if (isValidURL(query)) {
+          const url = query.startsWith('http') ? query : `https://${query}`;
+          saveToHistory(query);
+          window.location.href = url;
+        } else {
+          saveToHistory(query);
+          window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        }
+      }
+    } else if (e.key === 'Escape') {
+      overlay.classList.remove('active');
+    }
+  });
+  
+  // وظائف سجل البحث
+  function saveToHistory(query) {
+    let history = getFromStorage('searchHistory');
+    const index = history.findIndex(item => item.toLowerCase() === query.toLowerCase());
+    if (index > -1) history.splice(index, 1);
+    history.unshift(query);
+    if (history.length > 15) history.length = 15;
+    saveToStorage('searchHistory', history);
+  }
+  
+  function loadHistory() {
+    let history = getFromStorage('searchHistory');
+    historyList.innerHTML = '';
+    
+    history.forEach(item => {
+      const li = document.createElement('li');
+      
+      const historyIcon = document.createElement('i');
+      historyIcon.classList.add('fas', 'fa-history', 'history-icon');
+      
+      const historyText = document.createElement('div');
+      historyText.classList.add('history-text');
+      historyText.textContent = item;
+      
+      const deleteIcon = document.createElement('i');
+      deleteIcon.classList.add('fas', 'fa-trash', 'delete-icon');
+      
+      li.appendChild(historyIcon);
+      li.appendChild(historyText);
+      li.appendChild(deleteIcon);
+      
+      li.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('delete-icon')) {
+          fullInput.value = item;
+          const simulateEnter = new KeyboardEvent('keydown', {key: 'Enter'});
+          fullInput.dispatchEvent(simulateEnter);
+        }
+      });
+      
+      deleteIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        let history = getFromStorage('searchHistory');
+        history = history.filter(i => i !== item);
+        saveToStorage('searchHistory', history);
+        loadHistory();
+      });
+      
+      historyList.appendChild(li);
+    });
+    
+    clearBtn.classList.toggle('hidden', history.length === 0);
+  }
+  
+  clearBtn.onclick = () => {
+    if (confirm('هل أنت متأكد من رغبتك في مسح سجل البحث؟')) {
+      saveToStorage('searchHistory', []);
+      loadHistory();
+    }
+  };
+  
+  // وظائف المفضلة
   favoritesBtn.addEventListener('click', () => {
     favoritesPanel.classList.add('active');
     loadFavorites();
   });
   
-  // إغلاق لوحة المفضلة
   closeFavorites.addEventListener('click', () => {
     favoritesPanel.classList.remove('active');
   });
   
-  // إضافة موقع للمفضلة
   addSiteBtn.addEventListener('click', () => {
     const name = siteNameInput.value.trim();
     let url = siteURLInput.value.trim();
@@ -451,66 +551,178 @@
       addFavorite(name, url);
       siteNameInput.value = '';
       siteURLInput.value = '';
+    } else {
+      alert('الرجاء إدخال اسم ورابط الموقع');
     }
   });
   
-  // إضافة موقع للمفضلة
   function addFavorite(name, url) {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    favorites.push({ name, url });
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+    const favorites = getFromStorage('favorites');
+    favorites.push({ 
+      name, 
+      url, 
+      id: Date.now(),
+      createdAt: new Date().toISOString()
+    });
+    saveToStorage('favorites', favorites);
     loadFavorites();
   }
   
-  // تحميل المواقع المفضلة
   function loadFavorites() {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const favorites = getFromStorage('favorites');
     favoritesList.innerHTML = '';
     
-    favorites.forEach(site => {
+    if (favorites.length === 0) {
+      const emptyMsg = document.createElement('div');
+      emptyMsg.style.textAlign = 'center';
+      emptyMsg.style.padding = '20px';
+      emptyMsg.style.color = '#9aa0a6';
+      emptyMsg.style.fontSize = '15px';
+      emptyMsg.innerHTML = 'لا توجد مواقع مفضلة.<br>أضف موقعًا باستخدام النموذج أدناه.';
+      favoritesList.appendChild(emptyMsg);
+      return;
+    }
+    
+    favorites.forEach((site) => {
       const li = document.createElement('li');
+      li.dataset.id = site.id;
       
+      // معلومات الموقع
       const siteInfo = document.createElement('div');
       siteInfo.className = 'site-info';
       
+      // أيقونة الموقع
       const icon = document.createElement('div');
       icon.className = 'site-icon';
-      icon.textContent = site.name.charAt(0);
       
+      // محاولة الحصول على أيقونة الموقع الحقيقية
+      const faviconUrl = createFaviconUrl(site.url);
+      if (faviconUrl) {
+        icon.style.background = `url(${faviconUrl})`;
+      } else {
+        // استخدام الحرف الأول كأيقونة احتياطية
+        icon.textContent = site.name.charAt(0);
+        icon.style.backgroundColor = getColorFromString(site.name);
+      }
+      
+      // اسم الموقع
       const name = document.createElement('div');
       name.className = 'site-name';
       name.textContent = site.name;
       
-      const deleteBtn = document.createElement('i');
-      deleteBtn.className = 'fas fa-times delete-site';
+      // قسم الأزرار
+      const actions = document.createElement('div');
+      actions.className = 'actions';
       
+      // زر تعديل
+      const editBtn = document.createElement('button');
+      editBtn.className = 'edit-btn';
+      editBtn.innerHTML = '<i class="fas fa-edit"></i> تعديل';
+      
+      // زر حذف
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'delete-btn';
+      deleteBtn.innerHTML = '<i class="fas fa-trash"></i> حذف';
+      
+      // تجميع العناصر
       siteInfo.appendChild(icon);
       siteInfo.appendChild(name);
+      
+      actions.appendChild(editBtn);
+      actions.appendChild(deleteBtn);
+      
       li.appendChild(siteInfo);
-      li.appendChild(deleteBtn);
+      li.appendChild(actions);
       
       // فتح الموقع عند النقر
       siteInfo.addEventListener('click', () => {
         window.location.href = site.url;
       });
       
-      // حذف الموقع من المفضلة
-      deleteBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        deleteFavorite(site.url);
+      // تعديل الموقع
+      editBtn.addEventListener('click', () => {
+        // طريقة بسيطة للتعديل مناسبة للهاتف
+        const newName = prompt('اسم الموقع:', site.name);
+        if (newName && newName.trim()) {
+          let newUrl = prompt('رابط الموقع:', site.url);
+          if (newUrl && newUrl.trim()) {
+            if (!newUrl.startsWith('http://') && !newUrl.startsWith('https://')) {
+              newUrl = 'https://' + newUrl;
+            }
+            
+            let favorites = getFromStorage('favorites');
+            const index = favorites.findIndex(s => s.id == site.id);
+            if (index !== -1) {
+              favorites[index].name = newName.trim();
+              favorites[index].url = newUrl.trim();
+              saveToStorage('favorites', favorites);
+              loadFavorites();
+            }
+          }
+        }
+      });
+      
+      // حذف الموقع
+      deleteBtn.addEventListener('click', () => {
+        if (confirm(`هل أنت متأكد من حذف "${site.name}"؟`)) {
+          let favorites = getFromStorage('favorites');
+          favorites = favorites.filter(s => s.id != site.id);
+          saveToStorage('favorites', favorites);
+          loadFavorites();
+        }
       });
       
       favoritesList.appendChild(li);
     });
   }
   
-  // حذف موقع من المفضلة
-  function deleteFavorite(url) {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    favorites = favorites.filter(site => site.url !== url);
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    loadFavorites();
-  }
+  // اختصارات لوحة المفاتيح
+  document.addEventListener('keydown', (e) => {
+    // فتح البحث عند الضغط على /
+    if (e.key === '/' && !overlay.classList.contains('active')) {
+      e.preventDefault();
+      mainInput.click();
+    }
+    
+    // فتح المفضلة عند الضغط على F
+    if (e.key === 'f' && !e.ctrlKey && !e.altKey) {
+      e.preventDefault();
+      if (!favoritesPanel.classList.contains('active')) {
+        favoritesBtn.click();
+      } else {
+        favoritesPanel.classList.remove('active');
+      }
+    }
+    
+    // إغلاق النوافذ المفتوحة بالEsc
+    if (e.key === 'Escape') {
+      if (overlay.classList.contains('active')) {
+        overlay.classList.remove('active');
+      } else if (favoritesPanel.classList.contains('active')) {
+        favoritesPanel.classList.remove('active');
+      }
+    }
+  });
+  
+  // تأثير الشعار
+  logo.addEventListener('click', () => {
+    logo.classList.add('animate');
+    setTimeout(() => {
+      logo.classList.remove('animate');
+    }, 300);
+  });
+  
+  // تهيئة التطبيق
+  window.addEventListener('DOMContentLoaded', () => {
+    // الترحيب عند زيارة التطبيق لأول مرة
+    const isFirstVisit = !getFromStorage('hasVisited', false);
+    if (isFirstVisit) {
+      setTimeout(() => {
+        alert('مرحباً بك في محرك البحث المتطور!\n\nيمكنك:\n• النقر على شريط البحث للبدء\n• استخدام زر النجمة للوصول إلى المفضلة');
+        saveToStorage('hasVisited', true);
+      }, 1000);
+    }
+  });
 </script>
 
 </body>
