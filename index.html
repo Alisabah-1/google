@@ -49,8 +49,6 @@
       border-color: #8ab4f8;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     }
-    
-    /* تنسيق شاشة البحث الكاملة */
     .overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -72,8 +70,6 @@
       margin-left: 10px;
       cursor: pointer;
     }
-    
-    /* تنسيق سجل البحث */
     .search-history {
       list-style: none;
       padding: 0;
@@ -122,8 +118,6 @@
       background-color: rgba(234, 67, 53, 0.1);
     }
     .clear-history.hidden { display: none; }
-    
-    /* زر المواقع المفضلة */
     .favorites-btn {
       position: fixed;
       bottom: 30px;
@@ -144,8 +138,6 @@
       font-size: 22px;
       color: white;
     }
-    
-    /* تنسيق نافذة المواقع المفضلة - نسخة بسيطة للهاتف */
     .favorites-panel {
       position: fixed;
       top: 0;
@@ -156,7 +148,7 @@
       z-index: 10;
       display: none;
       flex-direction: column;
-      padding: 20px;
+      padding: 10px;
       overflow-y: auto;
     }
     .favorites-panel.active {
@@ -168,7 +160,6 @@
       align-items: center;
       margin-bottom: 20px;
       padding-bottom: 15px;
-      border-bottom: 1px solid #3c4043;
     }
     .favorites-header h3 {
       font-size: 20px;
@@ -179,8 +170,6 @@
       padding: 5px;
       cursor: pointer;
     }
-    
-    /* تنسيق القائمة - نسخة محسنة للهاتف */
     .favorites-list {
       list-style: none;
       padding: 0;
@@ -194,6 +183,7 @@
       margin-bottom: 12px;
       overflow: hidden;
       transition: transform 0.2s;
+      padding: 10px;
     }
     .favorites-list li:active {
       transform: scale(0.98);
@@ -201,12 +191,11 @@
     .favorites-list li .site-info {
       display: flex;
       align-items: center;
-      padding: 15px;
       cursor: pointer;
     }
     .favorites-list li .site-icon {
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border-radius: 8px;
       margin-left: 12px;
       display: flex;
@@ -219,14 +208,12 @@
     }
     .favorites-list li .site-name {
       font-weight: 500;
-      font-size: 16px;
+      font-size: 14px;
     }
-    
-    /* أزرار العمليات للمفضلة */
     .favorites-list li .actions {
       display: flex;
-      justify-content: space-around;
-      padding: 10px;
+      justify-content: center;
+      padding: 8px;
       background-color: #272727;
       border-top: 1px solid #3c4043;
     }
@@ -234,29 +221,19 @@
       background: none;
       border: none;
       color: #e8eaed;
-      padding: 8px 15px;
+      padding: 6px 10px;
       border-radius: 4px;
       cursor: pointer;
       font-family: 'Tajawal', sans-serif;
-      font-size: 14px;
+      font-size: 12px;
       display: flex;
       align-items: center;
       transition: background 0.2s;
+      margin: 5px;
     }
     .favorites-list li .actions button:hover {
       background-color: #383b40;
     }
-    .favorites-list li .actions button i {
-      margin-left: 5px;
-    }
-    .favorites-list li .actions .edit-btn {
-      color: #8ab4f8;
-    }
-    .favorites-list li .actions .delete-btn {
-      color: #ea4335;
-    }
-    
-    /* نموذج إضافة موقع جديد */
     .add-favorite {
       background-color: #303134;
       border-radius: 12px;
@@ -266,9 +243,7 @@
     .add-favorite-header {
       display: flex;
       align-items: center;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #3c4043;
+      margin-bottom: 10px;
     }
     .add-favorite-header i {
       margin-left: 10px;
@@ -280,14 +255,16 @@
       font-weight: 500;
     }
     .add-favorite input {
-      width: 100%;
-      padding: 12px 15px;
+      width: calc(50% - 10px);
+      padding: 8px 10px;
       margin-bottom: 10px;
       background-color: #202124;
       border: 1px solid #3c4043;
       border-radius: 8px;
       color: #e8eaed;
-      font-size: 15px;
+      font-size: 14px;
+      display: inline-block;
+      margin-right: 5px;
     }
     .add-favorite input:focus {
       border-color: #8ab4f8;
@@ -305,8 +282,43 @@
       cursor: pointer;
       font-family: 'Tajawal', sans-serif;
     }
+    /* نافذة التأكيد */
+    .confirmation-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .confirmation-box {
+      background-color: #303134;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    .confirmation-box p {
+      color: #e8eaed;
+      margin-bottom: 20px;
+    }
+    .confirmation-box button {
+      background: #4285f4;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      padding: 10px 15px;
+      cursor: pointer;
+      margin: 0 5px;
+      transition: background 0.3s;
+    }
+    .confirmation-box button:hover {
+      background: #34a853;
+    }
     
-    /* تنسيق متجاوب للهواتف */
     @media (max-width: 600px) {
       .logo { 
         font-size: 50px; 
@@ -331,34 +343,27 @@
   </div>
 </div>
 
-<!-- زر المواقع المفضلة -->
 <div class="favorites-btn" id="favoritesBtn">
   <i class="fas fa-star"></i>
 </div>
 
-<!-- لوحة المواقع المفضلة -->
 <div class="favorites-panel" id="favoritesPanel">
   <div class="favorites-header">
     <h3>المواقع المفضلة</h3>
     <i class="fas fa-times" id="closeFavorites"></i>
   </div>
-  
-  <!-- قائمة المواقع المفضلة -->
   <ul class="favorites-list" id="favoritesList"></ul>
-  
-  <!-- نموذج إضافة موقع للمفضلة -->
   <div class="add-favorite">
     <div class="add-favorite-header">
       <i class="fas fa-plus-circle"></i>
       <h4>إضافة موقع جديد</h4>
     </div>
-    <input type="text" id="siteName" placeholder="اسم الموقع (مثال: جوجل)">
-    <input type="url" id="siteURL" placeholder="رابط الموقع (مثال: https://google.com)">
+    <input type="text" id="siteName" placeholder="اسم الموقع">
+    <input type="url" id="siteURL" placeholder="رابط الموقع">
     <button id="addSiteBtn">إضافة للمفضلة</button>
   </div>
 </div>
 
-<!-- شاشة البحث الكاملة -->
 <div class="overlay" id="fullSearch">
   <div class="top-bar">
     <i class="fas fa-arrow-right" id="closeOverlay"></i>
@@ -368,8 +373,15 @@
   <div class="clear-history" id="clearHistory">مسح السجل</div>
 </div>
 
+<div class="confirmation-overlay" id="confirmationOverlay" style="display:none;">
+  <div class="confirmation-box">
+    <p id="confirmationMessage">هل أنت متأكد من حذف هذا العنصر؟</p>
+    <button id="confirmDeleteBtn">تأكيد</button>
+    <button id="cancelDeleteBtn">إلغاء</button>
+  </div>
+</div>
+
 <script>
-  // تهيئة المتغيرات الأساسية
   const mainInput = document.querySelector('.search-input');
   const overlay = document.getElementById('fullSearch');
   const closeBtn = document.getElementById('closeOverlay');
@@ -386,7 +398,17 @@
   const siteNameInput = document.getElementById('siteName');
   const siteURLInput = document.getElementById('siteURL');
   
-  // وظائف التخزين
+  const confirmationOverlay = document.getElementById('confirmationOverlay');
+  const confirmationMessage = document.getElementById('confirmationMessage');
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+  const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+  
+  let currentItemToDelete;
+  
+  // للتتبع أي نافذة مفتوحة حاليًا
+  let isSearchOpen = false;
+  let isFavoritesOpen = false;
+  
   function getFromStorage(key, defaultValue = []) {
     const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : defaultValue;
@@ -395,14 +417,12 @@
   function saveToStorage(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
   }
-  
-  // التحقق من صحة الرابط
+
   function isValidURL(string) {
     const pattern = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
     return pattern.test(string);
   }
   
-  // إنشاء أيقونة للموقع
   function createFaviconUrl(url) {
     try {
       const domain = new URL(url).hostname;
@@ -412,7 +432,6 @@
     }
   }
   
-  // توليد لون من نص
   function getColorFromString(str) {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
@@ -427,28 +446,49 @@
     return colors[Math.abs(hash) % colors.length];
   }
   
-  // وظائف البحث
+  // تعامل مع الضغط على زر الرجوع في الأندرويد
+  function handleBackButton() {
+    if (isFavoritesOpen) {
+      favoritesPanel.classList.remove('active');
+      isFavoritesOpen = false;
+      return true; // تم معالجة الحدث
+    }
+    
+    if (isSearchOpen) {
+      overlay.classList.remove('active');
+      isSearchOpen = false;
+      return true; // تم معالجة الحدث
+    }
+    
+    if (confirmationOverlay.style.display === 'flex') {
+      confirmationOverlay.style.display = 'none';
+      return true; // تم معالجة الحدث
+    }
+    
+    return false; // لم يتم معالجة الحدث، يمكن للمتصفح الخروج من التطبيق
+  }
+  
+  // إضافة مستمع لحدث زر الرجوع
+  window.addEventListener('popstate', function(event) {
+    // منع المتصفح من التصرف الافتراضي إذا تم معالجة الحدث
+    if (handleBackButton()) {
+      // إعادة إضافة حالة إضافية للتاريخ لمنع الخروج من التطبيق
+      window.history.pushState(null, null, window.location.pathname);
+      event.preventDefault();
+    }
+  });
+  
   mainInput.addEventListener('click', () => {
     overlay.classList.add('active');
     setTimeout(() => fullInput.focus(), 100);
     loadHistory();
-    fullInput.value = '';  
-    history.pushState(null, null, location.href);
+    fullInput.value = '';
+    isSearchOpen = true;
   });
   
   closeBtn.addEventListener('click', () => {
     overlay.classList.remove('active');
-  });
-  
-  window.addEventListener("popstate", () => {
-    if (overlay.classList.contains("active")) {
-      overlay.classList.remove("active");
-      history.pushState(null, null, location.href);
-    }
-    
-    if (favoritesPanel.classList.contains("active")) {
-      favoritesPanel.classList.remove("active");
-    }
+    isSearchOpen = false;
   });
   
   fullInput.addEventListener('keydown', e => {
@@ -466,10 +506,10 @@
       }
     } else if (e.key === 'Escape') {
       overlay.classList.remove('active');
+      isSearchOpen = false;
     }
   });
   
-  // وظائف سجل البحث
   function saveToHistory(query) {
     let history = getFromStorage('searchHistory');
     const index = history.findIndex(item => item.toLowerCase() === query.toLowerCase());
@@ -523,22 +563,22 @@
   }
   
   clearBtn.onclick = () => {
-    if (confirm('هل أنت متأكد من رغبتك في مسح سجل البحث؟')) {
-      saveToStorage('searchHistory', []);
-      loadHistory();
-    }
+    currentItemToDelete = 'history';
+    confirmationMessage.textContent = 'هل أنت متأكد من رغبتك في مسح سجل البحث؟';
+    confirmationOverlay.style.display = 'flex';
   };
   
-  // وظائف المفضلة
   favoritesBtn.addEventListener('click', () => {
     favoritesPanel.classList.add('active');
     loadFavorites();
+    isFavoritesOpen = true;
   });
   
   closeFavorites.addEventListener('click', () => {
     favoritesPanel.classList.remove('active');
+    isFavoritesOpen = false;
   });
-  
+
   addSiteBtn.addEventListener('click', () => {
     const name = siteNameInput.value.trim();
     let url = siteURLInput.value.trim();
@@ -586,125 +626,95 @@
     favorites.forEach((site) => {
       const li = document.createElement('li');
       li.dataset.id = site.id;
-      
-      // معلومات الموقع
+
       const siteInfo = document.createElement('div');
       siteInfo.className = 'site-info';
-      
-      // أيقونة الموقع
+
       const icon = document.createElement('div');
       icon.className = 'site-icon';
       
-      // محاولة الحصول على أيقونة الموقع الحقيقية
       const faviconUrl = createFaviconUrl(site.url);
       if (faviconUrl) {
         icon.style.background = `url(${faviconUrl})`;
       } else {
-        // استخدام الحرف الأول كأيقونة احتياطية
         icon.textContent = site.name.charAt(0);
         icon.style.backgroundColor = getColorFromString(site.name);
       }
       
-      // اسم الموقع
       const name = document.createElement('div');
       name.className = 'site-name';
       name.textContent = site.name;
       
-      // قسم الأزرار
       const actions = document.createElement('div');
       actions.className = 'actions';
       
-      // زر تعديل
-      const editBtn = document.createElement('button');
-      editBtn.className = 'edit-btn';
-      editBtn.innerHTML = '<i class="fas fa-edit"></i> تعديل';
-      
-      // زر حذف
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'delete-btn';
-      deleteBtn.innerHTML = '<i class="fas fa-trash"></i> حذف';
-      
-      // تجميع العناصر
+      deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+
       siteInfo.appendChild(icon);
       siteInfo.appendChild(name);
-      
-      actions.appendChild(editBtn);
       actions.appendChild(deleteBtn);
-      
       li.appendChild(siteInfo);
       li.appendChild(actions);
       
-      // فتح الموقع عند النقر
       siteInfo.addEventListener('click', () => {
         window.location.href = site.url;
       });
-      
-      // تعديل الموقع
-      editBtn.addEventListener('click', () => {
-        // طريقة بسيطة للتعديل مناسبة للهاتف
-        const newName = prompt('اسم الموقع:', site.name);
-        if (newName && newName.trim()) {
-          let newUrl = prompt('رابط الموقع:', site.url);
-          if (newUrl && newUrl.trim()) {
-            if (!newUrl.startsWith('http://') && !newUrl.startsWith('https://')) {
-              newUrl = 'https://' + newUrl;
-            }
-            
-            let favorites = getFromStorage('favorites');
-            const index = favorites.findIndex(s => s.id == site.id);
-            if (index !== -1) {
-              favorites[index].name = newName.trim();
-              favorites[index].url = newUrl.trim();
-              saveToStorage('favorites', favorites);
-              loadFavorites();
-            }
-          }
-        }
-      });
-      
-      // حذف الموقع
-      deleteBtn.addEventListener('click', () => {
-        if (confirm(`هل أنت متأكد من حذف "${site.name}"؟`)) {
-          let favorites = getFromStorage('favorites');
-          favorites = favorites.filter(s => s.id != site.id);
-          saveToStorage('favorites', favorites);
-          loadFavorites();
-        }
+
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentItemToDelete = site;
+        confirmationMessage.textContent = 'هل أنت متأكد من حذف هذا الموقع؟';
+        confirmationOverlay.style.display = 'flex';
       });
       
       favoritesList.appendChild(li);
     });
   }
-  
-  // اختصارات لوحة المفاتيح
+
+  cancelDeleteBtn.addEventListener('click', () => {
+    confirmationOverlay.style.display = 'none';
+  });
+
+  confirmDeleteBtn.addEventListener('click', () => {
+    if (currentItemToDelete === 'history') {
+      saveToStorage('searchHistory', []);
+      loadHistory();
+    } else if (currentItemToDelete) {
+      let favorites = getFromStorage('favorites');
+      favorites = favorites.filter(s => s.id != currentItemToDelete.id);
+      saveToStorage('favorites', favorites);
+      loadFavorites();
+    }
+    confirmationOverlay.style.display = 'none';
+  });
+
   document.addEventListener('keydown', (e) => {
-    // فتح البحث عند الضغط على /
-    if (e.key === '/' && !overlay.classList.contains('active')) {
+    if (e.key === '/' && !isSearchOpen) {
       e.preventDefault();
       mainInput.click();
     }
     
-    // فتح المفضلة عند الضغط على F
     if (e.key === 'f' && !e.ctrlKey && !e.altKey) {
       e.preventDefault();
-      if (!favoritesPanel.classList.contains('active')) {
+      if (!isFavoritesOpen) {
         favoritesBtn.click();
       } else {
-        favoritesPanel.classList.remove('active');
+        closeFavorites.click();
       }
     }
     
-    // إغلاق النوافذ المفتوحة بالEsc
     if (e.key === 'Escape') {
-      if (overlay.classList.contains('active')) {
-        overlay.classList.remove('active');
-      } else if (favoritesPanel.classList.contains('active')) {
-        favoritesPanel.classList.remove('active');
+      if (isSearchOpen) {
+        closeBtn.click();
+      } else if (isFavoritesOpen) {
+        closeFavorites.click();
       }
+      confirmationOverlay.style.display = 'none';
     }
   });
   
-  // تأثير الشعار
   logo.addEventListener('click', () => {
     logo.classList.add('animate');
     setTimeout(() => {
@@ -712,16 +722,10 @@
     }, 300);
   });
   
-  // تهيئة التطبيق
+  // إضافة تاريخ للصفحة عند التحميل لمعالجة زر الرجوع
   window.addEventListener('DOMContentLoaded', () => {
-    // الترحيب عند زيارة التطبيق لأول مرة
-    const isFirstVisit = !getFromStorage('hasVisited', false);
-    if (isFirstVisit) {
-      setTimeout(() => {
-        alert('مرحباً بك في محرك البحث المتطور!\n\nيمكنك:\n• النقر على شريط البحث للبدء\n• استخدام زر النجمة للوصول إلى المفضلة');
-        saveToStorage('hasVisited', true);
-      }, 1000);
-    }
+    // إضافة حالة للتاريخ عند بدء التطبيق
+    window.history.pushState(null, null, window.location.pathname);
   });
 </script>
 
